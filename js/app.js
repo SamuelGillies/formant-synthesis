@@ -65,29 +65,29 @@ async function setup() {
     }
 
     // (Optional) Load the samples
-    if (dependencies.length)
-        await device.loadDataBufferDependencies(dependencies);
+    // if (dependencies.length)
+    //     await device.loadDataBufferDependencies(dependencies);
 
     // Connect the device to the web audio graph
     device.node.connect(outputNode);
 
     // (Optional) Extract the name and rnbo version of the patcher from the description
-    document.getElementById("patcher-title").innerText = (patcher.desc.meta.filename || "Unnamed Patcher") + " (v" + patcher.desc.meta.rnboversion + ")";
+    // document.getElementById("patcher-title").innerText = (patcher.desc.meta.filename || "Unnamed Patcher") + " (v" + patcher.desc.meta.rnboversion + ")";
 
     // (Optional) Automatically create sliders for the device parameters
     makeSliders(device);
 
     // (Optional) Create a form to send messages to RNBO inputs
-    makeInportForm(device);
+    // makeInportForm(device);
 
     // (Optional) Attach listeners to outports so you can log messages from the RNBO patcher
-    attachOutports(device);
+    // attachOutports(device);
 
     // (Optional) Load presets, if any
     loadPresets(device, patcher);
 
     // (Optional) Connect MIDI inputs
-    makeMIDIKeyboard(device);
+    // makeMIDIKeyboard(device);
 
     document.body.onclick = () => {
         context.resume();
@@ -208,64 +208,64 @@ function makeSliders(device) {
     });
 }
 
-function makeInportForm(device) {
-    const idiv = document.getElementById("rnbo-inports");
-    const inportSelect = document.getElementById("inport-select");
-    const inportText = document.getElementById("inport-text");
-    const inportForm = document.getElementById("inport-form");
-    let inportTag = null;
+// function makeInportForm(device) {
+//     const idiv = document.getElementById("rnbo-inports");
+//     const inportSelect = document.getElementById("inport-select");
+//     const inportText = document.getElementById("inport-text");
+//     const inportForm = document.getElementById("inport-form");
+//     let inportTag = null;
     
-    // Device messages correspond to inlets/outlets or inports/outports
-    // You can filter for one or the other using the "type" of the message
-    const messages = device.messages;
-    const inports = messages.filter(message => message.type === RNBO.MessagePortType.Inport);
+//     // Device messages correspond to inlets/outlets or inports/outports
+//     // You can filter for one or the other using the "type" of the message
+//     const messages = device.messages;
+//     const inports = messages.filter(message => message.type === RNBO.MessagePortType.Inport);
 
-    if (inports.length === 0) {
-        idiv.removeChild(document.getElementById("inport-form"));
-        return;
-    } else {
-        idiv.removeChild(document.getElementById("no-inports-label"));
-        inports.forEach(inport => {
-            const option = document.createElement("option");
-            option.innerText = inport.tag;
-            inportSelect.appendChild(option);
-        });
-        inportSelect.onchange = () => inportTag = inportSelect.value;
-        inportTag = inportSelect.value;
+//     if (inports.length === 0) {
+//         idiv.removeChild(document.getElementById("inport-form"));
+//         return;
+//     } else {
+//         idiv.removeChild(document.getElementById("no-inports-label"));
+//         inports.forEach(inport => {
+//             const option = document.createElement("option");
+//             option.innerText = inport.tag;
+//             inportSelect.appendChild(option);
+//         });
+//         inportSelect.onchange = () => inportTag = inportSelect.value;
+//         inportTag = inportSelect.value;
 
-        inportForm.onsubmit = (ev) => {
-            // Do this or else the page will reload
-            ev.preventDefault();
+//         inportForm.onsubmit = (ev) => {
+//             // Do this or else the page will reload
+//             ev.preventDefault();
 
-            // Turn the text into a list of numbers (RNBO messages must be numbers, not text)
-            const values = inportText.value.split(/\s+/).map(s => parseFloat(s));
+//             // Turn the text into a list of numbers (RNBO messages must be numbers, not text)
+//             const values = inportText.value.split(/\s+/).map(s => parseFloat(s));
             
-            // Send the message event to the RNBO device
-            let messageEvent = new RNBO.MessageEvent(RNBO.TimeNow, inportTag, values);
-            device.scheduleEvent(messageEvent);
-        }
-    }
-}
+//             // Send the message event to the RNBO device
+//             let messageEvent = new RNBO.MessageEvent(RNBO.TimeNow, inportTag, values);
+//             device.scheduleEvent(messageEvent);
+//         }
+//     }
+// }
 
-function attachOutports(device) {
-    const outports = device.outports;
-    if (outports.length < 1) {
-        document.getElementById("rnbo-console").removeChild(document.getElementById("rnbo-console-div"));
-        return;
-    }
+// function attachOutports(device) {
+//     const outports = device.outports;
+//     if (outports.length < 1) {
+//         document.getElementById("rnbo-console").removeChild(document.getElementById("rnbo-console-div"));
+//         return;
+//     }
 
-    document.getElementById("rnbo-console").removeChild(document.getElementById("no-outports-label"));
-    device.messageEvent.subscribe((ev) => {
+//     document.getElementById("rnbo-console").removeChild(document.getElementById("no-outports-label"));
+//     device.messageEvent.subscribe((ev) => {
 
-        // Ignore message events that don't belong to an outport
-        if (outports.findIndex(elt => elt.tag === ev.tag) < 0) return;
+//         // Ignore message events that don't belong to an outport
+//         if (outports.findIndex(elt => elt.tag === ev.tag) < 0) return;
 
-        // Message events have a tag as well as a payload
-        console.log(`${ev.tag}: ${ev.payload}`);
+//         // Message events have a tag as well as a payload
+//         console.log(`${ev.tag}: ${ev.payload}`);
 
-        document.getElementById("rnbo-console-readout").innerText = `${ev.tag}: ${ev.payload}`;
-    });
-}
+//         document.getElementById("rnbo-console-readout").innerText = `${ev.tag}: ${ev.payload}`;
+//     });
+// }
 
 function loadPresets(device, patcher) {
     let presets = patcher.presets || [];
@@ -285,55 +285,55 @@ function loadPresets(device, patcher) {
     presetSelect.onchange = () => device.setPreset(presets[presetSelect.value].preset);
 }
 
-function makeMIDIKeyboard(device) {
-    let mdiv = document.getElementById("rnbo-clickable-keyboard");
-    if (device.numMIDIInputPorts === 0) return;
+// function makeMIDIKeyboard(device) {
+//     let mdiv = document.getElementById("rnbo-clickable-keyboard");
+//     if (device.numMIDIInputPorts === 0) return;
 
-    mdiv.removeChild(document.getElementById("no-midi-label"));
+//     mdiv.removeChild(document.getElementById("no-midi-label"));
 
-    const midiNotes = [49, 52, 56, 63];
-    midiNotes.forEach(note => {
-        const key = document.createElement("div");
-        const label = document.createElement("p");
-        label.textContent = note;
-        key.appendChild(label);
-        key.addEventListener("pointerdown", () => {
-            let midiChannel = 0;
+//     const midiNotes = [49, 52, 56, 63];
+//     midiNotes.forEach(note => {
+//         const key = document.createElement("div");
+//         const label = document.createElement("p");
+//         label.textContent = note;
+//         key.appendChild(label);
+//         key.addEventListener("pointerdown", () => {
+//             let midiChannel = 0;
 
-            // Format a MIDI message paylaod, this constructs a MIDI on event
-            let noteOnMessage = [
-                144 + midiChannel, // Code for a note on: 10010000 & midi channel (0-15)
-                note, // MIDI Note
-                100 // MIDI Velocity
-            ];
+//             // Format a MIDI message paylaod, this constructs a MIDI on event
+//             let noteOnMessage = [
+//                 144 + midiChannel, // Code for a note on: 10010000 & midi channel (0-15)
+//                 note, // MIDI Note
+//                 100 // MIDI Velocity
+//             ];
         
-            let noteOffMessage = [
-                128 + midiChannel, // Code for a note off: 10000000 & midi channel (0-15)
-                note, // MIDI Note
-                0 // MIDI Velocity
-            ];
+//             let noteOffMessage = [
+//                 128 + midiChannel, // Code for a note off: 10000000 & midi channel (0-15)
+//                 note, // MIDI Note
+//                 0 // MIDI Velocity
+//             ];
         
-            // Including rnbo.min.js (or the unminified rnbo.js) will add the RNBO object
-            // to the global namespace. This includes the TimeNow constant as well as
-            // the MIDIEvent constructor.
-            let midiPort = 0;
-            let noteDurationMs = 250;
+//             // Including rnbo.min.js (or the unminified rnbo.js) will add the RNBO object
+//             // to the global namespace. This includes the TimeNow constant as well as
+//             // the MIDIEvent constructor.
+//             let midiPort = 0;
+//             let noteDurationMs = 250;
         
-            // When scheduling an event to occur in the future, use the current audio context time
-            // multiplied by 1000 (converting seconds to milliseconds) for now.
-            let noteOnEvent = new RNBO.MIDIEvent(device.context.currentTime * 1000, midiPort, noteOnMessage);
-            let noteOffEvent = new RNBO.MIDIEvent(device.context.currentTime * 1000 + noteDurationMs, midiPort, noteOffMessage);
+//             // When scheduling an event to occur in the future, use the current audio context time
+//             // multiplied by 1000 (converting seconds to milliseconds) for now.
+//             let noteOnEvent = new RNBO.MIDIEvent(device.context.currentTime * 1000, midiPort, noteOnMessage);
+//             let noteOffEvent = new RNBO.MIDIEvent(device.context.currentTime * 1000 + noteDurationMs, midiPort, noteOffMessage);
         
-            device.scheduleEvent(noteOnEvent);
-            device.scheduleEvent(noteOffEvent);
+//             device.scheduleEvent(noteOnEvent);
+//             device.scheduleEvent(noteOffEvent);
 
-            key.classList.add("clicked");
-        });
+//             key.classList.add("clicked");
+//         });
 
-        key.addEventListener("pointerup", () => key.classList.remove("clicked"));
+//         key.addEventListener("pointerup", () => key.classList.remove("clicked"));
 
-        mdiv.appendChild(key);
-    });
-}
+//         mdiv.appendChild(key);
+//     });
+// }
 
 setup();
