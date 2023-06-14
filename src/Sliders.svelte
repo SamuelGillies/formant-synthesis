@@ -1,6 +1,7 @@
 <script>
 	import { gain, x, y } from './app.js';
 	import { scaleNumber } from './functions'; 
+
 	let gvalue = 0, f1value, f2value; 
 	
 	function gainChange(e) {
@@ -31,7 +32,7 @@
 
 <div class="sliderContainer">
 	<div class="slider">
-		<label for='gain'>Gain:</label><input type=range bind:value={gvalue} step=0.01 min=0 max=1 name='gain'><input type=number value={gvalue}>
+		<label for='gain'>Gain:</label><input id="sliderGain" type=range bind:value={gvalue} on:input={gainChange} step=0.01 min=0 max=1 name='gain'><input type=number value={gvalue}>
 	</div>
 	<div class="slider">
 		<label for='f1'>f1:</label><input type=range bind:value={f1value} on:input={xChange} step=0.01 min=0 max=1 name='f1'><input type=number value={f1value}>
@@ -71,9 +72,9 @@
 		max-width: 1500px; 
 	}
 	
-	input[type=number] {
+	/* input[type=number] {
 		-moz-appearance: textfield;
 		width: 50px; 
-	}
+	} */
 </style>
 
