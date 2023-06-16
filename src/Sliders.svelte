@@ -1,6 +1,6 @@
 <script>
 	import { gain, x, y } from './app.js';
-	import { scaleNumber } from './functions'; 
+
 
 	let gvalue = 0, f1value, f2value; 
 	
