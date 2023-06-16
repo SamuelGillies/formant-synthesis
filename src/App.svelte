@@ -5,10 +5,6 @@
 	import { scaleNumber } from './functions'; 
 	import { createDevice } from '@rnbo/js';
 
-	$: gainStore = $gain; 
-	$: f1Param = scaleNumber($x, [0., 1.], [100, 10000], 0); 
-	$: f2Param = scaleNumber($y, [0., 1.], [100, 10000], 0); 
-
     // @ts-ignore
     let WAContext = window.AudioContext || window.webkitAudioContext;
     let context = new WAContext();
@@ -20,14 +16,21 @@
 
         device.node.connect(context.destination);
 
-        const gainslider = document.getElementById('sliderGain'); 
 		const gainParam = device.parametersById.get("gain");
+		const f1Param = device.parametersById.get("f1");
+        const f2Param = device.parametersById.get("f2");
 
-        gainslider.addEventListener('input', function() { 
-			gainParam.value = gainStore;
+		gain.subscribe(value => {
+			gainParam.value = value;
+		});
+		
+		x.subscribe(value => {
+			f1Param.value = scaleNumber(value, [0., 1.], [100, 10000], 0);
 		});
 
-
+		y.subscribe(value => {
+			f2Param.value = scaleNumber(value, [0., 1.], [100, 10000], 0);
+		});
 
 		document.body.onclick = () => {
             context.resume();

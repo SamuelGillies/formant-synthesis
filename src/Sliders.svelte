@@ -52,6 +52,7 @@
 		display: flex; 
 		flex-direction: column;
 		margin: 0px 200px ; 
+		user-select: none;
 	}
 	
 	.slider {
@@ -72,9 +73,9 @@
 		max-width: 1500px; 
 	}
 	
-	/* input[type=number] {
+	input[type=number] {
 		-moz-appearance: textfield;
 		width: 50px; 
-	} */
+	}
 </style>
 
