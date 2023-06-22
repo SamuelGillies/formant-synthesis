@@ -1,6 +1,5 @@
 <script>
 	import { onMount, afterUpdate } from 'svelte';
-	import Sliders from './Sliders.svelte';
 	import { scaleNumber } from './functions'; 
 	import { x, y } from './app.js';
 		

@@ -32,13 +32,13 @@
 
 <div class="sliderContainer">
 	<div class="slider">
-		<label for='gain'>Gain:</label><input id="sliderGain" type=range bind:value={gvalue} on:input={gainChange} step=0.01 min=0 max=1 name='gain'><input type=number value={gvalue}>
+		<p>Gain:</p><input id="sliderGain" type=range bind:value={gvalue} on:input={gainChange} step=0.01 min=0 max=1 name='gain'><p>{gvalue}</p>
 	</div>
 	<div class="slider">
-		<label for='f1'>f1:</label><input type=range bind:value={f1value} on:input={xChange} step=0.01 min=0 max=1 name='f1'><input type=number value={f1value}>
+		<p>f1:</p><input type=range bind:value={f1value} on:input={xChange} step=0.01 min=0 max=1 name='f1'><p>{f1value}</p>
 	</div>
 	<div class="slider">
-		<label for='f2'>f2:</label><input type=range bind:value={f2value} on:input={yChange} step=0.01 min=0 max=1 name='f2'><input type=number value={f2value}>
+		<p>f2:</p><input type=range bind:value={f2value} on:input={yChange} step=0.01 min=0 max=1 name='f2'><p>{f2value}</p>
 	</div>
 </div>
 
@@ -51,8 +51,9 @@
 	.sliderContainer {
 		display: flex; 
 		flex-direction: column;
-		margin: 0px 200px ; 
+		/* margin: 0px 200px ;  */
 		user-select: none;
+
 	}
 	
 	.slider {
@@ -61,21 +62,13 @@
 		align-items: center; 
 		justify-items: center; 
 		justify-content: center; 
+		gap: 50px; 
+	}
+
+	p {
+		pointer-events: none;
+		width: 3rem;
 	}
 	
-	input::-webkit-outer-spin-button,
-	input::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-		width: 50px; 
-	}
-	
-	input[type=range] {
-		max-width: 1500px; 
-	}
-	
-	input[type=number] {
-		-moz-appearance: textfield;
-		width: 50px; 
-	}
 </style>
 

@@ -42,6 +42,6 @@
 </script>
 
 <body>
-	<Trackpad/> 
 	<Sliders/>
+	<Trackpad/> 
 </body>
